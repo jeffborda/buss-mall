@@ -7,6 +7,8 @@ var allImageNames = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubbleg
 var allProductImages = [];
 var previousDisplayedIndexes = [-1, -1, -1, -1, -1, -1];
 var totalClicks = 0;
+var MAX_CLICKS_ALLOWED = 25;
+var userClickResults = document.getElementById('user-click-results');
 
 function ProductImage(imageName) {
   this.imageName = imageName;
@@ -87,7 +89,14 @@ imageChoiceOneEl.addEventListener('click', function(event) {
       allProductImages[i].timesClicked++;
     }
   }
-  showRandomProductImages();
+  totalClicks++;
+  if (totalClicks <= MAX_CLICKS_ALLOWED) {
+    showRandomProductImages();
+  }
+  else {
+    makeHeaderRow();
+    renderResults();
+  }
 });
 
 imageChoiceTwoEl.addEventListener('click', function(event) {
@@ -97,7 +106,14 @@ imageChoiceTwoEl.addEventListener('click', function(event) {
       allProductImages[i].timesClicked++;
     }
   }
-  showRandomProductImages();
+  totalClicks++;
+  if (totalClicks <= MAX_CLICKS_ALLOWED) {
+    showRandomProductImages();
+  }
+  else {
+    makeHeaderRow();
+    renderResults();
+  }
 });
 
 imageChoiceThreeEl.addEventListener('click', function(event) {
@@ -107,5 +123,53 @@ imageChoiceThreeEl.addEventListener('click', function(event) {
       allProductImages[i].timesClicked++;
     }
   }
-  showRandomProductImages();
+  totalClicks++;
+  if (totalClicks < MAX_CLICKS_ALLOWED) {
+    showRandomProductImages();
+  }
+  else {
+    makeHeaderRow();
+    renderResults();
+  }
 });
+
+
+
+function makeHeaderRow() {
+  var trEl = document.createElement('tr');
+  var thEl = document.createElement('th');
+  thEl.textContent = 'Product';
+  trEl.appendChild(thEl);
+
+  thEl = document.createElement('th');
+  thEl.textContent = 'Times Displayed';
+  trEl.appendChild(thEl);
+
+  thEl = document.createElement('th');
+  thEl.textContent = 'Times Clicked';
+  trEl.appendChild(thEl);
+
+  userClickResults.appendChild(trEl);
+}
+
+ProductImage.prototype.render = function() {
+  var trEl = document.createElement('tr');
+  var tdEl = document.createElement('td');
+  tdEl.textContent = this.imageName;
+  trEl.appendChild(tdEl);
+
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.timesShown;
+  trEl.appendChild(tdEl);
+  
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.timesClicked;
+  trEl.appendChild(tdEl);
+  userClickResults.appendChild(trEl);
+};
+
+function renderResults() {
+  for(var i = 0; i < allProductImages.length; i++) {
+    allProductImages[i].render();
+  }
+}
