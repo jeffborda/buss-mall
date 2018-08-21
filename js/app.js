@@ -9,6 +9,10 @@ var previousDisplayedIndexes = [-1, -1, -1, -1, -1, -1];
 var totalClicks = 0;
 var MAX_CLICKS_ALLOWED = 25;
 var userClickResults = document.getElementById('user-click-results');
+var votesChart; //for chart.js
+var chartDrawn = false; //for chart.js
+var imageTitles = []; //holds image titles for chart
+var imageVotes = []; //holds image votes for chart
 
 function ProductImage(imageName) {
   this.imageName = imageName;
@@ -128,6 +132,8 @@ imageChoiceOneEl.addEventListener('click', function(event) {
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
     makeHeaderRow();
     renderResults();
+    updateChartArrays();
+    drawChart();
   }
 });
 
@@ -145,6 +151,8 @@ imageChoiceTwoEl.addEventListener('click', function(event) {
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
     makeHeaderRow();
     renderResults();
+    updateChartArrays();
+    drawChart();
   }
 });
 
@@ -162,8 +170,49 @@ imageChoiceThreeEl.addEventListener('click', function(event) {
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
     makeHeaderRow();
     renderResults();
+    updateChartArrays();
+    drawChart();
   }
 });
+
+//Chart Funcitons +++++++++++++++++++++++++++++++++++++++++++++
+
+function updateChartArrays() {
+  for(var i = 0; i < allProductImages.length; i++) {
+    imageTitles[i] = allProductImages[i].imageName;
+    imageVotes[i] = allProductImages[i].timesClicked;
+  }
+}
+
+var data = {
+  labels: imageTitles,
+  datasets: [{
+    data: imageVotes,
+    backgroundColor: 'gray',
+    borderColor: 'black'
+  }],
+  hoverBackgroundColor: 'purple',
+};
+
+function drawChart() {
+  var ctx = document.getElementById('vote-chart').getContext('2d');
+  /*votesChart = */new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+      scales: {
+        xAxes: [{
+          stacked: true
+        }],
+        yAxes: [{
+          stacked: true
+        }]
+      }
+    }
+  });
+  chartDrawn = true;
+}
+
 
 
 //main
