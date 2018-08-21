@@ -31,16 +31,50 @@ allImageNames.forEach(function(name) {
   new ProductImage(name);
 });
 
+//For printing out a simple table of what user clicks.
+ProductImage.prototype.render = function() {
+  var trEl = document.createElement('tr');
+  var tdEl = document.createElement('td');
+  tdEl.textContent = this.imageName;
+  trEl.appendChild(tdEl);
 
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.timesShown;
+  trEl.appendChild(tdEl);
 
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.timesClicked;
+  trEl.appendChild(tdEl);
+  userClickResults.appendChild(trEl);
+};
 
+function makeHeaderRow() {
+  var trEl = document.createElement('tr');
+  var thEl = document.createElement('th');
+  thEl.textContent = 'Product';
+  trEl.appendChild(thEl);
 
-// imageChoiceOneEl.src = allProductImages[0].path;
-// imageChoiceTwoEl.src = allProductImages[1].path;
-// imageChoiceThreeEl.src = allProductImages[2].path;
+  thEl = document.createElement('th');
+  thEl.textContent = 'Times Displayed';
+  trEl.appendChild(thEl);
 
-//Checks prev six images to see if they were displayed
-function checkDisplayable(randomElement) {
+  thEl = document.createElement('th');
+  thEl.textContent = 'Times Clicked';
+  trEl.appendChild(thEl);
+
+  userClickResults.appendChild(trEl);
+}
+
+function renderResults() {
+  for(var i = 0; i < allProductImages.length; i++) {
+    allProductImages[i].render();
+  }
+}
+
+//Helper function that checks the previous six image elements displayed to prevent repeats.
+//  true means the image is safe to display again
+//  false means it's a repeat
+function isDisplayable(randomElement) {
   for (var i = 0; i < 6; i++) {
     if (previousDisplayedIndexes[i] === randomElement) {
       return false;
@@ -49,10 +83,10 @@ function checkDisplayable(randomElement) {
   return true;
 }
 
-
+//Function to display three random images, and checking to make sure they're not repeats
 function showRandomProductImages() {
   var rando = Math.floor(allProductImages.length * Math.random());
-  while(!checkDisplayable(rando)){
+  while(!isDisplayable(rando)){
     rando = Math.floor(allProductImages.length * Math.random());
   }
   imageChoiceOneEl.src = allProductImages[rando].path;
@@ -61,7 +95,7 @@ function showRandomProductImages() {
   previousDisplayedIndexes.unshift(rando);
 
   rando = Math.floor(allProductImages.length * Math.random());
-  while(!checkDisplayable(rando)){
+  while(!isDisplayable(rando)){
     rando = Math.floor(allProductImages.length * Math.random());
   }
   imageChoiceTwoEl.src = allProductImages[rando].path;
@@ -70,7 +104,7 @@ function showRandomProductImages() {
   previousDisplayedIndexes.unshift(rando);
 
   rando = Math.floor(allProductImages.length * Math.random());
-  while(!checkDisplayable(rando)){
+  while(!isDisplayable(rando)){
     rando = Math.floor(allProductImages.length * Math.random());
   }
   imageChoiceThreeEl.src = allProductImages[rando].path;
@@ -79,9 +113,7 @@ function showRandomProductImages() {
   previousDisplayedIndexes.unshift(rando);
 }
 
-showRandomProductImages();
-
-
+//Listeners for each of the three images
 imageChoiceOneEl.addEventListener('click', function(event) {
   console.log(event.target.title);
   for (var i = 0; i < allProductImages.length; i++) {
@@ -134,42 +166,5 @@ imageChoiceThreeEl.addEventListener('click', function(event) {
 });
 
 
-
-function makeHeaderRow() {
-  var trEl = document.createElement('tr');
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Product';
-  trEl.appendChild(thEl);
-
-  thEl = document.createElement('th');
-  thEl.textContent = 'Times Displayed';
-  trEl.appendChild(thEl);
-
-  thEl = document.createElement('th');
-  thEl.textContent = 'Times Clicked';
-  trEl.appendChild(thEl);
-
-  userClickResults.appendChild(trEl);
-}
-
-ProductImage.prototype.render = function() {
-  var trEl = document.createElement('tr');
-  var tdEl = document.createElement('td');
-  tdEl.textContent = this.imageName;
-  trEl.appendChild(tdEl);
-
-  tdEl = document.createElement('td');
-  tdEl.textContent = this.timesShown;
-  trEl.appendChild(tdEl);
-  
-  tdEl = document.createElement('td');
-  tdEl.textContent = this.timesClicked;
-  trEl.appendChild(tdEl);
-  userClickResults.appendChild(trEl);
-};
-
-function renderResults() {
-  for(var i = 0; i < allProductImages.length; i++) {
-    allProductImages[i].render();
-  }
-}
+//main
+showRandomProductImages();
