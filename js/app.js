@@ -130,8 +130,8 @@ imageChoiceOneEl.addEventListener('click', function(event) {
     showRandomProductImages();
   }
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    makeHeaderRow();
-    renderResults();
+    // makeHeaderRow();
+    // renderResults();
     updateChartArrays();
     drawChart();
   }
@@ -149,8 +149,8 @@ imageChoiceTwoEl.addEventListener('click', function(event) {
     showRandomProductImages();
   }
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    makeHeaderRow();
-    renderResults();
+    // makeHeaderRow();
+    // renderResults();
     updateChartArrays();
     drawChart();
   }
@@ -168,8 +168,8 @@ imageChoiceThreeEl.addEventListener('click', function(event) {
     showRandomProductImages();
   }
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    makeHeaderRow();
-    renderResults();
+    // makeHeaderRow();
+    // renderResults();
     updateChartArrays();
     drawChart();
   }
@@ -187,26 +187,35 @@ function updateChartArrays() {
 var data = {
   labels: imageTitles,
   datasets: [{
+    label: 'Clicks',
     data: imageVotes,
-    backgroundColor: 'gray',
-    borderColor: 'black'
+    backgroundColor: '#2772BE',
+    hoverBackgroundColor: '#153A5F',
   }],
-  hoverBackgroundColor: 'purple',
 };
 
 function drawChart() {
   var ctx = document.getElementById('vote-chart').getContext('2d');
-  /*votesChart = */new Chart(ctx, {
+  votesChart = new Chart(ctx, {
     type: 'bar',
     data: data,
     options: {
+      responsive: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutQuad'
+
+      },
       scales: {
         xAxes: [{
-          stacked: true
+          stacked: false,
         }],
         yAxes: [{
-          stacked: true
-        }]
+          stacked: false,
+          ticks: {
+            stepSize: 1,
+          },
+        }],
       }
     }
   });
