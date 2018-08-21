@@ -1,0 +1,19 @@
+li {
+  display: inline-block;
+}
+img {
+  width: 200px;
+}
+
+table, th, td {
+  font-family: 'Arial', sans-serif;
+  border: 1px solid black;
+}
+
+th, td {
+  padding: 4px;
+}
+
+label, input, button {
+  font-family: 'Arial', sans-serif;
+}
