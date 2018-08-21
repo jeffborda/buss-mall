@@ -115,14 +115,14 @@ function showRandomProductImages() {
 
 //Listeners for each of the three images
 imageChoiceOneEl.addEventListener('click', function(event) {
-  console.log(event.target.title);
+  //console.log(event.target.title); //for testing
   for (var i = 0; i < allProductImages.length; i++) {
     if(event.target.title === allProductImages[i].imageName) {
       allProductImages[i].timesClicked++;
     }
   }
   totalClicks++;
-  if (totalClicks <= MAX_CLICKS_ALLOWED) {
+  if (totalClicks < MAX_CLICKS_ALLOWED) {
     showRandomProductImages();
   }
   else {
@@ -132,14 +132,14 @@ imageChoiceOneEl.addEventListener('click', function(event) {
 });
 
 imageChoiceTwoEl.addEventListener('click', function(event) {
-  console.log(event.target.title);
+  //console.log(event.target.title); //for testing
   for (var i = 0; i < allProductImages.length; i++) {
     if(event.target.title === allProductImages[i].imageName) {
       allProductImages[i].timesClicked++;
     }
   }
   totalClicks++;
-  if (totalClicks <= MAX_CLICKS_ALLOWED) {
+  if (totalClicks < MAX_CLICKS_ALLOWED) {
     showRandomProductImages();
   }
   else {
@@ -149,7 +149,7 @@ imageChoiceTwoEl.addEventListener('click', function(event) {
 });
 
 imageChoiceThreeEl.addEventListener('click', function(event) {
-  console.log(event.target.title);
+  //console.log(event.target.title); //for testing
   for (var i = 0; i < allProductImages.length; i++) {
     if(event.target.title === allProductImages[i].imageName) {
       allProductImages[i].timesClicked++;
