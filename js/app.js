@@ -125,7 +125,7 @@ imageChoiceOneEl.addEventListener('click', function(event) {
   if (totalClicks < MAX_CLICKS_ALLOWED) {
     showRandomProductImages();
   }
-  else {
+  else if (totalClicks === MAX_CLICKS_ALLOWED) {
     makeHeaderRow();
     renderResults();
   }
@@ -142,7 +142,7 @@ imageChoiceTwoEl.addEventListener('click', function(event) {
   if (totalClicks < MAX_CLICKS_ALLOWED) {
     showRandomProductImages();
   }
-  else {
+  else if (totalClicks === MAX_CLICKS_ALLOWED) {
     makeHeaderRow();
     renderResults();
   }
@@ -159,7 +159,7 @@ imageChoiceThreeEl.addEventListener('click', function(event) {
   if (totalClicks < MAX_CLICKS_ALLOWED) {
     showRandomProductImages();
   }
-  else {
+  else if (totalClicks === MAX_CLICKS_ALLOWED) {
     makeHeaderRow();
     renderResults();
   }
