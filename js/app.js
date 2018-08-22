@@ -187,7 +187,7 @@ function updateChartArrays() {
 var data = {
   labels: imageTitles,
   datasets: [{
-    label: 'Clicks',
+    label: 'Number of Clicks',
     data: imageVotes,
     backgroundColor: '#2772BE',
     hoverBackgroundColor: '#153A5F',
