@@ -9,6 +9,7 @@ var previousDisplayedIndexes = [-1, -1, -1, -1, -1, -1];
 var totalClicks = 0;
 var MAX_CLICKS_ALLOWED = 25;
 var userClickResults = document.getElementById('user-click-results');
+//eslint-disable-next-line
 var votesChart; //for chart.js
 //var chartDrawn = false; //for chart.js
 var imageTitles = []; //holds image titles for chart
@@ -66,32 +67,32 @@ function isDisplayable(randomElement) {
 
 //Function to display three random images, and checking to make sure they're not repeats
 function showRandomProductImages() {
-  var rando = Math.floor(allProductImages.length * Math.random());
-  while(!isDisplayable(rando)){
-    rando = Math.floor(allProductImages.length * Math.random());
+  var randomIndexNumber = Math.floor(allProductImages.length * Math.random());
+  while(!isDisplayable(randomIndexNumber)){
+    randomIndexNumber = Math.floor(allProductImages.length * Math.random());
   }
-  imageChoiceOneEl.src = allProductImages[rando].path;
-  imageChoiceOneEl.title = allProductImages[rando].imageName;
-  allProductImages[rando].timesShown++;
-  previousDisplayedIndexes.unshift(rando);
+  imageChoiceOneEl.src = allProductImages[randomIndexNumber].path;
+  imageChoiceOneEl.title = allProductImages[randomIndexNumber].imageName;
+  allProductImages[randomIndexNumber].timesShown++;
+  previousDisplayedIndexes.unshift(randomIndexNumber);
 
-  rando = Math.floor(allProductImages.length * Math.random());
-  while(!isDisplayable(rando)){
-    rando = Math.floor(allProductImages.length * Math.random());
+  randomIndexNumber = Math.floor(allProductImages.length * Math.random());
+  while(!isDisplayable(randomIndexNumber)){
+    randomIndexNumber = Math.floor(allProductImages.length * Math.random());
   }
-  imageChoiceTwoEl.src = allProductImages[rando].path;
-  imageChoiceTwoEl.title = allProductImages[rando].imageName;
-  allProductImages[rando].timesShown++;
-  previousDisplayedIndexes.unshift(rando);
+  imageChoiceTwoEl.src = allProductImages[randomIndexNumber].path;
+  imageChoiceTwoEl.title = allProductImages[randomIndexNumber].imageName;
+  allProductImages[randomIndexNumber].timesShown++;
+  previousDisplayedIndexes.unshift(randomIndexNumber);
 
-  rando = Math.floor(allProductImages.length * Math.random());
-  while(!isDisplayable(rando)){
-    rando = Math.floor(allProductImages.length * Math.random());
+  randomIndexNumber = Math.floor(allProductImages.length * Math.random());
+  while(!isDisplayable(randomIndexNumber)){
+    randomIndexNumber = Math.floor(allProductImages.length * Math.random());
   }
-  imageChoiceThreeEl.src = allProductImages[rando].path;
-  imageChoiceThreeEl.title = allProductImages[rando].imageName;
-  allProductImages[rando].timesShown++;
-  previousDisplayedIndexes.unshift(rando);
+  imageChoiceThreeEl.src = allProductImages[randomIndexNumber].path;
+  imageChoiceThreeEl.title = allProductImages[randomIndexNumber].imageName;
+  allProductImages[randomIndexNumber].timesShown++;
+  previousDisplayedIndexes.unshift(randomIndexNumber);
 }
 
 //Listeners for each of the three images
@@ -167,6 +168,7 @@ var data = {
 
 function drawChart() {
   var ctx = document.getElementById('vote-chart').getContext('2d');
+  //eslint-disable-next-line
   votesChart = new Chart(ctx, {
     type: 'bar',
     data: data,
