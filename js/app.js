@@ -10,7 +10,7 @@ var totalClicks = 0;
 var MAX_CLICKS_ALLOWED = 25;
 var userClickResults = document.getElementById('user-click-results');
 var votesChart; //for chart.js
-var chartDrawn = false; //for chart.js
+//var chartDrawn = false; //for chart.js
 var imageTitles = []; //holds image titles for chart
 var imageVotes = []; //holds image votes for chart
 
@@ -51,29 +51,6 @@ ProductImage.prototype.render = function() {
   trEl.appendChild(tdEl);
   userClickResults.appendChild(trEl);
 };
-
-function makeHeaderRow() {
-  var trEl = document.createElement('tr');
-  var thEl = document.createElement('th');
-  thEl.textContent = 'Product';
-  trEl.appendChild(thEl);
-
-  thEl = document.createElement('th');
-  thEl.textContent = 'Times Displayed';
-  trEl.appendChild(thEl);
-
-  thEl = document.createElement('th');
-  thEl.textContent = 'Times Clicked';
-  trEl.appendChild(thEl);
-
-  userClickResults.appendChild(trEl);
-}
-
-function renderResults() {
-  for(var i = 0; i < allProductImages.length; i++) {
-    allProductImages[i].render();
-  }
-}
 
 //Helper function that checks the previous six image elements displayed to prevent repeats.
 //  true means the image is safe to display again
@@ -130,8 +107,6 @@ imageChoiceOneEl.addEventListener('click', function(event) {
     showRandomProductImages();
   }
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    // makeHeaderRow();
-    // renderResults();
     updateChartArrays();
     drawChart();
   }
@@ -149,8 +124,6 @@ imageChoiceTwoEl.addEventListener('click', function(event) {
     showRandomProductImages();
   }
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    // makeHeaderRow();
-    // renderResults();
     updateChartArrays();
     drawChart();
   }
@@ -168,8 +141,6 @@ imageChoiceThreeEl.addEventListener('click', function(event) {
     showRandomProductImages();
   }
   else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    // makeHeaderRow();
-    // renderResults();
     updateChartArrays();
     drawChart();
   }
@@ -219,7 +190,6 @@ function drawChart() {
       }
     }
   });
-  chartDrawn = true;
 }
 
 
