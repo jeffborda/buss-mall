@@ -196,6 +196,7 @@ var data = {
 
 function drawChart() {
   var ctx = document.getElementById('vote-chart').getContext('2d');
+  //eslint-disable-next-line
   votesChart = new Chart(ctx, {
     type: 'bar',
     data: data,
