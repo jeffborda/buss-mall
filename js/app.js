@@ -11,9 +11,10 @@ var MAX_CLICKS_ALLOWED = 25;
 var userClickResults = document.getElementById('user-click-results');
 //eslint-disable-next-line
 var votesChart; //for chart.js
-//var chartDrawn = false; //for chart.js
+var chartDrawn = false; //for chart.js
 var imageTitles = []; //holds image titles for chart
 var imageVotes = []; //holds image votes for chart
+var imageDisplayCounter = [];
 
 function ProductImage(imageName) {
   this.imageName = imageName;
@@ -93,59 +94,44 @@ function showRandomProductImages() {
   imageChoiceThreeEl.title = allProductImages[randomIndexNumber].imageName;
   allProductImages[randomIndexNumber].timesShown++;
   previousDisplayedIndexes.unshift(randomIndexNumber);
+
+  updateLocalStorageDisplayCounter();
+
+  if(totalClicks === 25 && chartDrawn === false){
+    updateChartArrays();
+    drawChart();
+  }
 }
 
 //Listeners for each of the three images
 imageChoiceOneEl.addEventListener('click', function(event) {
-  //console.log(event.target.title); //for testing
-  for (var i = 0; i < allProductImages.length; i++) {
-    if(event.target.title === allProductImages[i].imageName) {
-      allProductImages[i].timesClicked++;
-    }
-  }
-  totalClicks++;
-  if (totalClicks < MAX_CLICKS_ALLOWED) {
-    showRandomProductImages();
-  }
-  else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    updateChartArrays();
-    drawChart();
-  }
+  processImageClick(event);
 });
 
 imageChoiceTwoEl.addEventListener('click', function(event) {
-  //console.log(event.target.title); //for testing
-  for (var i = 0; i < allProductImages.length; i++) {
-    if(event.target.title === allProductImages[i].imageName) {
-      allProductImages[i].timesClicked++;
-    }
-  }
-  totalClicks++;
-  if (totalClicks < MAX_CLICKS_ALLOWED) {
-    showRandomProductImages();
-  }
-  else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    updateChartArrays();
-    drawChart();
-  }
+  processImageClick(event);
 });
 
 imageChoiceThreeEl.addEventListener('click', function(event) {
   //console.log(event.target.title); //for testing
-  for (var i = 0; i < allProductImages.length; i++) {
-    if(event.target.title === allProductImages[i].imageName) {
-      allProductImages[i].timesClicked++;
-    }
-  }
+  processImageClick(event);
+});
+
+function processImageClick(event) { //Helper function for event listeners on images
   totalClicks++;
-  if (totalClicks < MAX_CLICKS_ALLOWED) {
+  if (totalClicks <= MAX_CLICKS_ALLOWED) {
+    for (var i = 0; i < allProductImages.length; i++) {
+      if(event.target.title === allProductImages[i].imageName) {
+        allProductImages[i].timesClicked++;
+        updateChartArrays();
+      }
+    }
     showRandomProductImages();
   }
-  else if (totalClicks === MAX_CLICKS_ALLOWED) {
-    updateChartArrays();
+  if (totalClicks === MAX_CLICKS_ALLOWED && chartDrawn === false) {
     drawChart();
   }
-});
+}
 
 //Chart Funcitons +++++++++++++++++++++++++++++++++++++++++++++
 
@@ -154,7 +140,18 @@ function updateChartArrays() {
     imageTitles[i] = allProductImages[i].imageName;
     imageVotes[i] = allProductImages[i].timesClicked;
   }
+
+  localStorage.setItem('imageVotes', JSON.stringify(imageVotes));
+  localStorage.setItem('clickCounter', JSON.stringify(totalClicks));
 }
+
+function updateLocalStorageDisplayCounter() {
+  for(var i = 0; i < allProductImages.length; i++) {
+    imageDisplayCounter[i] = allProductImages[i].timesShown;
+  }
+  localStorage.setItem('displayCounter', JSON.stringify(imageDisplayCounter));
+}
+
 
 var data = {
   labels: imageTitles,
@@ -192,9 +189,27 @@ function drawChart() {
       }
     }
   });
+  chartDrawn = true;
 }
 
 
 
 //main
-showRandomProductImages();
+
+if(localStorage.getItem('imageVotes') === null) {
+  showRandomProductImages();
+}
+else {
+  for(var i = 0; i < allProductImages.length; i++) {
+    var localImageVoteCounts = JSON.parse(localStorage.getItem('imageVotes'));
+    var localImageDisplayCounts = JSON.parse(localStorage.getItem('displayCounter'));
+
+    allProductImages[i].timesShown = localImageDisplayCounts[i];
+    allProductImages[i].timesClicked = localImageVoteCounts[i];
+  }
+  totalClicks = JSON.parse(localStorage.getItem('clickCounter'));
+  showRandomProductImages();
+
+}
+
+
