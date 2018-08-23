@@ -97,7 +97,7 @@ function showRandomProductImages() {
 
   updateLocalStorageDisplayCounter();
 
-  if(totalClicks === 25 && chartDrawn === false){
+  if(totalClicks === 25 && chartDrawn === false){ //shoul
     updateChartArrays();
     drawChart();
   }
