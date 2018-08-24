@@ -3,15 +3,17 @@
 var imageChoiceOneEl = document.getElementById('image-choice-one');
 var imageChoiceTwoEl = document.getElementById('image-choice-two');
 var imageChoiceThreeEl = document.getElementById('image-choice-three');
+
 var allImageNames = ['bag', 'banana', 'bathroom', 'boots', 'breakfast', 'bubblegum', 'chair', 'cthulhu', 'dog-duck', 'dragon', 'pen', 'pet-sweep', 'scissors', 'shark', 'tauntaun', 'unicorn', 'water-can', 'wine-glass', 'sweep', 'usb'];
 var allProductImages = [];
 var previousDisplayedIndexes = [-1, -1, -1, -1, -1, -1];
 var totalClicks = 0;
 var MAX_CLICKS_ALLOWED = 25;
 var userClickResults = document.getElementById('user-click-results');
-//eslint-disable-next-line
-var votesChart; //for chart.js
+
+var votesChart;// eslint-disable-line
 var chartDrawn = false; //for chart.js
+
 var imageTitles = []; //holds image titles for chart
 var imageVotes = []; //holds image votes for chart
 var imageDisplayCounter = [];
@@ -97,7 +99,7 @@ function showRandomProductImages() {
 
   updateLocalStorageDisplayCounter();
 
-  if(totalClicks === 25 && chartDrawn === false){ //shoul
+  if(totalClicks === MAX_CLICKS_ALLOWED && chartDrawn === false){
     updateChartArrays();
     drawChart();
   }
@@ -132,8 +134,6 @@ function processImageClick(event) { //Helper function for event listeners on ima
     drawChart();
   }
 }
-
-//Chart Funcitons +++++++++++++++++++++++++++++++++++++++++++++
 
 function updateChartArrays() {
   for(var i = 0; i < allProductImages.length; i++) {
@@ -192,24 +192,31 @@ function drawChart() {
   chartDrawn = true;
 }
 
+function startPageLoad() {
+  if(localStorage.getItem('imageVotes') === null) {
+    showRandomProductImages();
+  }
+  else {
 
+    totalClicks = JSON.parse(localStorage.getItem('clickCounter'));
+
+    if (totalClicks === MAX_CLICKS_ALLOWED) { //to reset on reload if survey complete
+      localStorage.clear();
+      totalClicks = 0;
+    }
+
+    else {
+      for(var i = 0; i < allProductImages.length; i++) {
+        var localImageVoteCounts = JSON.parse(localStorage.getItem('imageVotes'));
+        var localImageDisplayCounts = JSON.parse(localStorage.getItem('displayCounter'));
+
+        allProductImages[i].timesShown = localImageDisplayCounts[i];
+        allProductImages[i].timesClicked = localImageVoteCounts[i];
+      }
+    }
+    showRandomProductImages(); //this is being repeated in both cases
+  }
+}
 
 //main
-
-if(localStorage.getItem('imageVotes') === null) {
-  showRandomProductImages();
-}
-else {
-  for(var i = 0; i < allProductImages.length; i++) {
-    var localImageVoteCounts = JSON.parse(localStorage.getItem('imageVotes'));
-    var localImageDisplayCounts = JSON.parse(localStorage.getItem('displayCounter'));
-
-    allProductImages[i].timesShown = localImageDisplayCounts[i];
-    allProductImages[i].timesClicked = localImageVoteCounts[i];
-  }
-  totalClicks = JSON.parse(localStorage.getItem('clickCounter'));
-  showRandomProductImages();
-
-}
-
-
+startPageLoad();
