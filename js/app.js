@@ -201,19 +201,17 @@ function startPageLoad() {
     totalClicks = JSON.parse(localStorage.getItem('clickCounter'));
 
     if (totalClicks === MAX_CLICKS_ALLOWED) { //to reset on reload if survey complete
-      localStorage.clear();
       totalClicks = 0;
     }
 
-    else {
-      for(var i = 0; i < allProductImages.length; i++) {
-        var localImageVoteCounts = JSON.parse(localStorage.getItem('imageVotes'));
-        var localImageDisplayCounts = JSON.parse(localStorage.getItem('displayCounter'));
+    for(var i = 0; i < allProductImages.length; i++) {
+      var localImageVoteCounts = JSON.parse(localStorage.getItem('imageVotes'));
+      var localImageDisplayCounts = JSON.parse(localStorage.getItem('displayCounter'));
 
-        allProductImages[i].timesShown = localImageDisplayCounts[i];
-        allProductImages[i].timesClicked = localImageVoteCounts[i];
-      }
+      allProductImages[i].timesShown = localImageDisplayCounts[i];
+      allProductImages[i].timesClicked = localImageVoteCounts[i];
     }
+
     showRandomProductImages(); //this is being repeated in both cases
   }
 }
